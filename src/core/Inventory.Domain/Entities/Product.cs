@@ -4,8 +4,8 @@ namespace Inventory.Domain.Entities;
 
 public class Product : BaseEntity
 {
-    public string DeviceCategoryId { get; set; }
-    public DeviceCategory DeviceCategory { get; set; }
+    public string CategoryId { get; set; }
+    public Category Category { get; set; }
     public string BrandId { get; set; }
     public Brand Brand { get; set; }
     public string Model { get; set; }

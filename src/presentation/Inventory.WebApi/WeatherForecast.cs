@@ -1,3 +1,4 @@
+#nullable enable
 namespace Inventory.WebApi;
 
 public class WeatherForecast
