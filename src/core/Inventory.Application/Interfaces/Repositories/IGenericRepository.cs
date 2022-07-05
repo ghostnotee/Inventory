@@ -5,7 +5,7 @@ namespace Inventory.Application.Interfaces.Repositories;
 
 public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    IQueryable<TEntity> Get(Expression<Func<TEntity, bool>>? predicate = null);
+    IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null);
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
     Task<TEntity> GetByIdAsync(string id);
 

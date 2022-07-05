@@ -10,7 +10,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
     private readonly IMongoCollection<TEntity> _dbCollection;
 
-    protected GenericRepository(IMongoDbContext context)
+    public GenericRepository(IMongoDbContext context)
     {
         _dbCollection = context.GetCollection<TEntity>(typeof(TEntity).Name);
     }

@@ -2,6 +2,6 @@ using Inventory.Domain.Entities;
 
 namespace Inventory.Application.Interfaces.Repositories;
 
-public interface IDeviceCategoryRepository : IGenericRepository<Category>
+public interface ICategoryRepository : IGenericRepository<Category>
 {
 }

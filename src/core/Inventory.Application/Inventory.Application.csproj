@@ -5,7 +5,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mapping" />
+    <Folder Include="Features\Commands" />
+    <Folder Include="Features\Queries\Product" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
   <PropertyGroup>

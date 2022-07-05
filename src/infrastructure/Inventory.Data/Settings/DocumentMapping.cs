@@ -24,7 +24,6 @@ public static class DocumentMapping
             cm.MapMember(p => p.Company).SetSerializer(new EnumSerializer<Companies>(BsonType.String));
             cm.UnmapMember(p => p.Category);
             cm.UnmapMember(p => p.Brand);
-           
         });
     }
 }
