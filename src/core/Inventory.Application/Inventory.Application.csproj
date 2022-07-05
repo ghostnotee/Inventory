@@ -5,8 +5,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dtos" />
     <Folder Include="Features\Commands" />
-    <Folder Include="Features\Queries\Products" />
+    <Folder Include="Features\Queries\Categories\GetCategoryById" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Dtos;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using MediatR;

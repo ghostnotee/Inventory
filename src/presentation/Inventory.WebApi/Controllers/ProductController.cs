@@ -25,7 +25,7 @@ namespace Inventory.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            return Ok(await _mediator.Send(new GetProductByIdQuery() { Id = id }));
+            return Ok(await _mediator.Send(new GetProductByIdQuery { Id = id }));
         }
     }
 }

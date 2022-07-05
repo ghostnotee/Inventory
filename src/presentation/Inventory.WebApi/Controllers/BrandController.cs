@@ -1,5 +1,6 @@
-using Inventory.Application.Interfaces.Repositories;
-using Inventory.Domain.Entities;
+using Inventory.Application.Features.Queries.Brands.GetAllBrands;
+using Inventory.Application.Features.Queries.Brands.GetBrandById;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
@@ -8,24 +9,23 @@ namespace Inventory.WebApi.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
-        private readonly IBrandRepository _brandRepository;
+        private readonly IMediator _mediator;
 
-        public BrandController(IBrandRepository brandRepository)
+        public BrandController(IMediator mediator)
         {
-            _brandRepository = brandRepository;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Brand>> InsertBrand([FromBody] Brand brand)
-        {
-            return await _brandRepository.AddAsync(brand);
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Brand>>> GetBrands()
+        public async Task<ActionResult> Get()
         {
-            var brands = _brandRepository.Get().ToList();
-            return await Task.FromResult(brands);
+            return Ok(await _mediator.Send(new GetAllBrandsQuery()));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(string id)
+        {
+            return Ok(await _mediator.Send(new GetBrandByIdQuery { Id = id }));
         }
     }
 }

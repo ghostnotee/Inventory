@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Dtos;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Application.Wrappers;
 using Inventory.Domain.Entities;
@@ -33,6 +32,7 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, S
         var queryable = from product in _productRepository.Get()
             join brand in _brandRepository.Get() on product.BrandId equals brand.Id
             join category in _categoryRepository.Get() on product.CategoryId equals category.Id
+            orderby product.Company
             select new Product
             {
                 Id = product.Id,
