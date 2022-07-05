@@ -4,7 +4,7 @@ using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.GetProductById;
+namespace Inventory.Application.Features.Queries.Products.GetProductById;
 
 public class GetProductByIdQuery : IRequest<ProductViewModel>
 {

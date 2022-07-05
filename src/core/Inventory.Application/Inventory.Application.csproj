@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Commands" />
-    <Folder Include="Features\Queries\Product" />
+    <Folder Include="Features\Queries\Products" />
   </ItemGroup>
 
   <ItemGroup>

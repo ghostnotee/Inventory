@@ -5,7 +5,7 @@ using Inventory.Application.Wrappers;
 using Inventory.Domain.Entities;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.GetAllProducts;
+namespace Inventory.Application.Features.Queries.Products.GetAllProducts;
 
 public class GetAllProductsQuery : IRequest<ServiceResponse<List<ProductViewModel>>>
 {

@@ -1,5 +1,5 @@
-using Inventory.Application.Features.Queries.GetAllProducts;
-using Inventory.Application.Features.Queries.GetProductById;
+using Inventory.Application.Features.Queries.Products.GetAllProducts;
+using Inventory.Application.Features.Queries.Products.GetProductById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
