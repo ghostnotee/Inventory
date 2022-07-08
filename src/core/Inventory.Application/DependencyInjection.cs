@@ -1,4 +1,5 @@
 using System.Reflection;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,5 +13,6 @@ public static class DependencyInjection
 
         serviceCollection.AddAutoMapper(assembly);
         serviceCollection.AddMediatR(assembly);
+        serviceCollection.AddValidatorsFromAssembly(assembly);
     }
 }

@@ -2,7 +2,7 @@ using AutoMapper;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.Brands.GetBrandById;
+namespace Inventory.Application.Features.Brands.Queries.GetBrandById;
 
 public class GetBrandByIdQuery : IRequest<BrandViewModel>
 {
@@ -22,7 +22,7 @@ public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Brand
 
     public async Task<BrandViewModel> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
     {
-        var brandDb = await _brandRepository.GetByIdAsync(request.Id);
-        return _mapper.Map<BrandViewModel>(brandDb);
+        var dbBrand = await _brandRepository.GetByIdAsync(request.Id);
+        return _mapper.Map<BrandViewModel>(dbBrand);
     }
 }

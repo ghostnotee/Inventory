@@ -13,7 +13,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
 
     Task<TEntity> UpdateAsync(string id, TEntity entity);
-    Task<TEntity> UpdateAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity);
 
     Task<TEntity> DeleteAsync(TEntity entity);
     Task<TEntity> DeleteAsync(string id);

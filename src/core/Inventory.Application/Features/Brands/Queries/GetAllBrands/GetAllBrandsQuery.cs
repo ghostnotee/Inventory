@@ -2,7 +2,7 @@ using AutoMapper;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.Brands.GetAllBrands;
+namespace Inventory.Application.Features.Brands.Queries.GetAllBrands;
 
 public class GetAllBrandsQuery : IRequest<List<BrandViewModel>>
 {

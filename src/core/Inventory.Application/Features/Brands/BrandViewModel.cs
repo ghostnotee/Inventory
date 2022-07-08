@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Queries.Brands;
+namespace Inventory.Application.Features.Brands;
 
 public class BrandViewModel
 {

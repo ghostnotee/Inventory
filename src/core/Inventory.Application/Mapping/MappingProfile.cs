@@ -1,5 +1,6 @@
 using AutoMapper;
-using Inventory.Application.Features.Queries.Brands;
+using Inventory.Application.Features.Brands;
+using Inventory.Application.Features.Queries.Categories;
 using Inventory.Application.Features.Queries.Products;
 using Inventory.Domain.Entities;
 
@@ -16,5 +17,6 @@ public class MappingProfile : Profile
                 y.MapFrom(z => z.Brand.Name));
 
         CreateMap<Brand, BrandViewModel>();
+        CreateMap<Category, CategoryViewModel>();
     }
 }
