@@ -10,7 +10,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
     private readonly IMongoCollection<TEntity> _dbCollection;
 
-    protected GenericRepository(IMongoDbContext context)
+    public GenericRepository(IMongoDbContext context)
     {
         _dbCollection = context.GetCollection<TEntity>(typeof(TEntity).Name);
     }
@@ -46,7 +46,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _dbCollection.FindOneAndReplaceAsync(x => x.Id == id, entity);
     }
 
-    public virtual async Task<TEntity> UpdateAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity)
     {
         return await _dbCollection.FindOneAndReplaceAsync(predicate, entity);
     }

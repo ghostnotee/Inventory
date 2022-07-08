@@ -33,6 +33,7 @@ public class InventoryDbSeed
             .RuleFor(p => p.CategoryId, p => p.PickRandom(deviceCategoryIds))
             .RuleFor(p => p.BrandId, p => p.PickRandom(brandIds))
             .RuleFor(p => p.Name, p => p.Commerce.ProductName())
+            .RuleFor(p => p.SerialNumber, p => p.Commerce.Ean8())
             .RuleFor(dC => dC.Model, dC => dC.Commerce.ProductMaterial())
             .RuleFor(dC => dC.Company, dC => dC.Random.Enum<Companies>())
             .RuleFor(dC => dC.Description, dC => dC.Commerce.ProductDescription())

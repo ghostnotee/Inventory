@@ -5,7 +5,7 @@ namespace Inventory.Application.Interfaces.Repositories;
 
 public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    IQueryable<TEntity> Get(Expression<Func<TEntity, bool>>? predicate = null);
+    IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null);
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
     Task<TEntity> GetByIdAsync(string id);
 
@@ -13,7 +13,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
 
     Task<TEntity> UpdateAsync(string id, TEntity entity);
-    Task<TEntity> UpdateAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> predicate, TEntity entity);
 
     Task<TEntity> DeleteAsync(TEntity entity);
     Task<TEntity> DeleteAsync(string id);

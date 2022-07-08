@@ -1,3 +1,4 @@
+using Inventory.Application;
 using Inventory.Data;
 using Inventory.Data.Settings;
 
@@ -9,7 +10,8 @@ DocumentMapping.MappingClasses();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
 
-builder.Services.AddInfrastructureData(builder.Configuration);
+builder.Services.AddCoreApplication();
+builder.Services.AddInfrastructureData();
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 

@@ -1,31 +1,44 @@
-using Inventory.Application.Interfaces.Repositories;
-using Inventory.Domain.Entities;
+using Inventory.Application.Features.Brands.Commands.CreateBrand;
+using Inventory.Application.Features.Brands.Commands.DeleteBrand;
+using Inventory.Application.Features.Brands.Commands.UpdateBrand;
+using Inventory.Application.Features.Brands.Queries.GetAllBrands;
+using Inventory.Application.Features.Brands.Queries.GetBrandById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class BrandController : ApiController
     {
-        private readonly IBrandRepository _brandRepository;
-
-        public BrandController(IBrandRepository brandRepository)
+        [HttpGet]
+        public async Task<ActionResult> Get()
         {
-            _brandRepository = brandRepository;
+            return Ok(await Mediator.Send(new GetAllBrandsQuery()));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(string id)
+        {
+            return Ok(await Mediator.Send(new GetBrandByIdQuery { Id = id }));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Brand>> InsertBrand([FromBody] Brand brand)
+        public async Task<ActionResult> Create([FromBody] CreateBrandCommand command)
         {
-            return await _brandRepository.AddAsync(brand);
+            return Ok(await Mediator.Send(command));
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Brand>>> GetBrands()
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id)
         {
-            var brands = _brandRepository.Get().ToList();
-            return await Task.FromResult(brands);
+            return Ok(await Mediator.Send(new DeleteBrandCommand() { Id = id }));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateBrandCommand command)
+        {
+            return Ok(await Mediator.Send(command));
         }
     }
 }

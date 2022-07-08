@@ -4,9 +4,9 @@ using Inventory.Domain.Entities;
 
 namespace Inventory.Data.Repositories;
 
-public class BrandRepository : GenericRepository<Brand>, IBrandRepository
+public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
 {
-    public BrandRepository(IMongoDbContext context) : base(context)
+    public CategoryRepository(IMongoDbContext context) : base(context)
     {
     }
 }
