@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Inventory.Application;
 using Inventory.Data;
 using Inventory.Data.Settings;
@@ -13,7 +14,9 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nam
 builder.Services.AddCoreApplication();
 builder.Services.AddInfrastructureData();
 
-builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
+    .AddFluentValidation();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
