@@ -6,20 +6,20 @@ using MongoDB.Driver;
 
 namespace Inventory.Data.Context;
 
-public class InventoryDbSeed
+public static class InventoryDbSeed
 {
     public static void SeedAsync(IMongoDbSettings settings)
     {
         var client = new MongoClient(settings.ConnectionString);
         var database = client.GetDatabase(settings.DatabaseName);
-
-        var brandCollection = database.GetCollection<Brand>(nameof(Brand));
+        
         var deviceCategoryCollection = database.GetCollection<Category>(nameof(Category));
-        var productCollection = database.GetCollection<Product>(nameof(Product));
-
         var existDeviceCategory = deviceCategoryCollection.Find(dC => true).Any();
         if (existDeviceCategory) return;
-
+        
+        var brandCollection = database.GetCollection<Brand>(nameof(Brand));
+        var productCollection = database.GetCollection<Product>(nameof(Product));
+        var userCollection = database.GetCollection<User>(nameof(User));
 
         var deviceCategories = GetDeviceCategories();
         var deviceCategoryIds = deviceCategories.Select(dC => dC.Id);
@@ -67,5 +67,19 @@ public class InventoryDbSeed
             .RuleFor(b => b.Name, b => b.Company.CompanyName())
             .Generate(10);
         return faker;
+    }
+
+    private static List<User> GetUsers()
+    {
+        var result= new Faker<User>("tr")
+            .RuleFor(i=>i.CreateDate, i=>i.Date.Between(DateTime.Now.AddDays(-100),DateTime.Now))
+            .RuleFor(i => i.FirstName, i => i.Person.FirstName)
+            .RuleFor(i => i.LastName, i => i.Person.LastName)
+            .RuleFor(i => i.EmailAddress, i => i.Internet.Email())
+            .RuleFor(i => i.Password, i => i.Internet.Password())
+            .RuleFor(i => i.EmailConfirmed, i => i.PickRandom(true, false))
+            .Generate(10);
+
+        return result;
     }
 }

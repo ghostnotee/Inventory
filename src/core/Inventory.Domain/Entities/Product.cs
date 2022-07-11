@@ -13,5 +13,6 @@ public class Product : BaseEntity
     public string SerialNumber { get; set; }
     public Companies Company { get; set; }
     public string Description { get; set; }
+    public virtual User CreatedBy { get; set; }
     public DebitTicket DebitTicket { get; set; }
 }
