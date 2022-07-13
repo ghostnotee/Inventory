@@ -2,6 +2,7 @@ using Bogus;
 using Inventory.Data.Settings;
 using Inventory.Domain.Entities;
 using Inventory.Domain.Enums;
+using Inventory.Identity.Hashing;
 using MongoDB.Driver;
 
 namespace Inventory.Data.Context;
@@ -12,14 +13,16 @@ public static class InventoryDbSeed
     {
         var client = new MongoClient(settings.ConnectionString);
         var database = client.GetDatabase(settings.DatabaseName);
-        
+
         var deviceCategoryCollection = database.GetCollection<Category>(nameof(Category));
         var existDeviceCategory = deviceCategoryCollection.Find(dC => true).Any();
         if (existDeviceCategory) return;
-        
+
         var brandCollection = database.GetCollection<Brand>(nameof(Brand));
         var productCollection = database.GetCollection<Product>(nameof(Product));
         var userCollection = database.GetCollection<User>(nameof(User));
+        var operationClaimCollection = database.GetCollection<OperationClaim>(nameof(OperationClaim));
+        var userOperationClaimCollection = database.GetCollection<UserOperationClaim>(nameof(UserOperationClaim));
 
         var deviceCategories = GetDeviceCategories();
         var deviceCategoryIds = deviceCategories.Select(dC => dC.Id);
@@ -28,6 +31,15 @@ public static class InventoryDbSeed
         var brands = GetBrands();
         var brandIds = brands.Select(b => b.Id);
         brandCollection.InsertManyAsync(brands);
+
+        var operationClaims = GetOperationClaims();
+        var operationClaimsIds = operationClaims.Select(u => u.Id);
+        operationClaimCollection.InsertManyAsync(operationClaims);
+
+        var users = GetUsers();
+        var userIds = users.Select(u => u.Id);
+        userCollection.InsertManyAsync(users);
+
 
         var products = new Faker<Product>("tr")
             .RuleFor(p => p.CategoryId, p => p.PickRandom(deviceCategoryIds))
@@ -49,6 +61,32 @@ public static class InventoryDbSeed
             .Generate(50);
 
         productCollection.InsertManyAsync(products);
+
+        var userOperationClaims = new Faker<UserOperationClaim>("tr")
+            .RuleFor(u => u.UserId, uOC => uOC.PickRandom(userIds))
+            .RuleFor(u => u.OperationClaimId, uOC => uOC.PickRandom(operationClaimsIds))
+            .Generate(5);
+
+        userOperationClaimCollection.InsertManyAsync(userOperationClaims);
+    }
+
+    private static List<OperationClaim> GetOperationClaims()
+    {
+        return new List<OperationClaim>()
+        {
+            new OperationClaim()
+            {
+                Name = "Admin"
+            },
+            new OperationClaim()
+            {
+                Name = "Manager"
+            },
+            new OperationClaim()
+            {
+                Name = "Default"
+            }
+        };
     }
 
     private static List<Category> GetDeviceCategories()
@@ -71,12 +109,15 @@ public static class InventoryDbSeed
 
     private static List<User> GetUsers()
     {
-        var result= new Faker<User>("tr")
-            .RuleFor(i=>i.CreateDate, i=>i.Date.Between(DateTime.Now.AddDays(-100),DateTime.Now))
+        HashingHelper.CreatePasswordHash("123456", out var passwordHash, out var passwordSalt);
+
+        var result = new Faker<User>("tr")
+            .RuleFor(i => i.CreateDate, i => i.Date.Between(DateTime.Now.AddDays(-100), DateTime.Now))
             .RuleFor(i => i.FirstName, i => i.Person.FirstName)
             .RuleFor(i => i.LastName, i => i.Person.LastName)
             .RuleFor(i => i.EmailAddress, i => i.Internet.Email())
-            .RuleFor(i => i.Password, i => i.Internet.Password())
+            .RuleFor(i => i.PasswordHash, i => passwordHash)
+            .RuleFor(i => i.PasswordSalt, i => passwordSalt)
             .RuleFor(i => i.EmailConfirmed, i => i.PickRandom(true, false))
             .Generate(10);
 

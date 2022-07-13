@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <ProjectReference Include="..\..\infrastructure\Inventory.Identity\Inventory.Identity.csproj" />
         <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
     </ItemGroup>
 
@@ -14,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Users\Commands" />
+      <Folder Include="Features\Users\Queries\GetAllUser" />
     </ItemGroup>
 
     <PropertyGroup>

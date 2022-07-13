@@ -17,8 +17,8 @@ public class JwtHelper : ITokenHelper
     public JwtHelper(IConfiguration configuration)
     {
         Configuration = configuration;
-        _accessTokenExpriration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
         _tokenOptions = Configuration.GetSection(nameof(TokenOptions)).Get<TokenOptions>();
+        _accessTokenExpriration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
     }
 
     public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
