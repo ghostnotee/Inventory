@@ -1,16 +1,16 @@
 using AutoMapper;
+using Inventory.Application.Features.Queries.Products;
 using Inventory.Application.Interfaces.Repositories;
-using Inventory.Application.Wrappers;
 using Inventory.Domain.Entities;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.Products.GetAllProducts;
+namespace Inventory.Application.Features.Products.Queries.GetAllProducts;
 
-public class GetAllProductsQuery : IRequest<ServiceResponse<List<ProductViewModel>>>
+public class GetAllProductsQuery : IRequest<List<ProductViewModel>>
 {
 }
 
-public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, ServiceResponse<List<ProductViewModel>>>
+public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, List<ProductViewModel>>
 {
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
@@ -26,7 +26,7 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, S
         _mapper = mapper;
     }
 
-    public async Task<ServiceResponse<List<ProductViewModel>>> Handle(GetAllProductsQuery request,
+    public async Task<List<ProductViewModel>> Handle(GetAllProductsQuery request,
         CancellationToken cancellationToken)
     {
         var queryable = from product in _productRepository.Get()
@@ -49,6 +49,6 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, S
             };
 
         var viewModel = _mapper.Map<List<ProductViewModel>>(queryable);
-        return await Task.FromResult(new ServiceResponse<List<ProductViewModel>>(viewModel));
+        return await Task.FromResult(new List<ProductViewModel>(viewModel));
     }
 }
