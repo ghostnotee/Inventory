@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CategoryController : ApiController
     {
         [HttpGet]

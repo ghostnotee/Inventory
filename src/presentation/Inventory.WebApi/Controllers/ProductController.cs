@@ -1,16 +1,16 @@
 using Inventory.Application.Features.Products.Commands.CreateProduct;
 using Inventory.Application.Features.Products.Commands.DeleteProduct;
 using Inventory.Application.Features.Products.Commands.UpdateProduct;
-using Inventory.Application.Features.Queries.Products.GetAllProducts;
-using Inventory.Application.Features.Queries.Products.GetProductById;
+using Inventory.Application.Features.Products.Queries.GetAllProducts;
+using Inventory.Application.Features.Products.Queries.GetProductById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ProductController : ApiController
     {
+        [Authorize(Roles = "List")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {

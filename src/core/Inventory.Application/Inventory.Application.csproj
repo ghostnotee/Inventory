@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+        <ProjectReference Include="..\..\infrastructure\Inventory.Identity\Inventory.Identity.csproj" />
         <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
     </ItemGroup>
 
@@ -11,6 +12,10 @@
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.1.0" />
         <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Users\Queries\GetAllUser" />
     </ItemGroup>
 
     <PropertyGroup>

@@ -2,6 +2,7 @@ using AutoMapper;
 using Inventory.Application.Features.Brands;
 using Inventory.Application.Features.Queries.Categories;
 using Inventory.Application.Features.Queries.Products;
+using Inventory.Application.Features.Users;
 using Inventory.Domain.Entities;
 
 namespace Inventory.Application.Mapping;
@@ -18,5 +19,7 @@ public class MappingProfile : Profile
 
         CreateMap<Brand, BrandViewModel>();
         CreateMap<Category, CategoryViewModel>();
+        CreateMap<User, UserViewModel>();
+        CreateMap<User, LoginUserViewModel>();
     }
 }
