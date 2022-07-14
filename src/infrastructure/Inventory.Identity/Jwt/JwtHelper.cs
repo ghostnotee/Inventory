@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Inventory.Domain.Entities;
 using Inventory.Identity.Encryption;
 using Inventory.Identity.Extensions;
@@ -13,12 +14,14 @@ public class JwtHelper : ITokenHelper
     public IConfiguration Configuration { get; }
     private TokenOptions _tokenOptions;
     private DateTime _accessTokenExpriration;
+    private DateTime _refreshTokenExpiration;
 
     public JwtHelper(IConfiguration configuration)
     {
         Configuration = configuration;
         _tokenOptions = Configuration.GetSection(nameof(TokenOptions)).Get<TokenOptions>();
         _accessTokenExpriration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
+        _refreshTokenExpiration = _accessTokenExpriration.AddMinutes(_tokenOptions.RefreshTokenExpiration);
     }
 
     public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
@@ -32,7 +35,9 @@ public class JwtHelper : ITokenHelper
         return new AccessToken
         {
             Token = token,
-            Expiration = _accessTokenExpriration
+            TokenExpiration = _accessTokenExpriration,
+            RefreshToken = GenerateRefreshToken(),
+            RefreshTokenExpiration = _refreshTokenExpiration
         };
     }
 
@@ -60,5 +65,15 @@ public class JwtHelper : ITokenHelper
         claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
 
         return claims;
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
     }
 }

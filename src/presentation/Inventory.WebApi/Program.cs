@@ -13,32 +13,29 @@ var builder = WebApplication.CreateBuilder(args);
 DocumentMapping.MappingClasses();
 
 // Add services to the container.
-
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
-
-builder.Services.AddCoreApplication();
-builder.Services.AddInfrastructureData();
-
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-builder.Services.AddInfrastructureIdentity();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", policyBuilder => policyBuilder.WithOrigins("http://localhost:5144"));
-});
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
         ValidateAudience = true,
+        ValidateIssuer = true,
         ValidateLifetime = true,
         ValidIssuer = tokenOptions.Issuer,
         ValidAudience = tokenOptions.Audience,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
     };
+});
+builder.Services.AddInfrastructureIdentity();
+
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+builder.Services.AddInfrastructureData();
+builder.Services.AddCoreApplication();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", policyBuilder => policyBuilder.WithOrigins("http://localhost:5144"));
 });
 
 builder.Services.AddControllers()

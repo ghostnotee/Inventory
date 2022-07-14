@@ -50,18 +50,25 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Login
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt
         };
-
-        var result = await _userRepository.AddAsync(createdUser);
-        var userViewModel = _mapper.Map<LoginUserViewModel>(result);
-
+        
         var claims = from operationClaim in _operationClaimRepository.Get()
             join userOperationClaim in _userOperationClaimRepository.Get() on operationClaim.Id equals
                 userOperationClaim.OperationClaimId
-            where userOperationClaim.UserId == result.Id
+            where userOperationClaim.UserId == createdUser.Id
             select new OperationClaim { Id = operationClaim.Id, Name = operationClaim.Name };
-
-        userViewModel.AccessToken = _tokenHelper.CreateToken(result,claims.ToList());
         
+        var accessToken = _tokenHelper.CreateToken(createdUser, claims.ToList());
+
+        createdUser.RefreshToken = accessToken.RefreshToken;
+        createdUser.RefreshTokenExpiration = accessToken.RefreshTokenExpiration;
+        var userToSaved = await _userRepository.AddAsync(createdUser);
+        
+        var userViewModel = _mapper.Map<LoginUserViewModel>(userToSaved);
+
+        userViewModel.Token = accessToken.Token;
+        userViewModel.TokenExpiration = accessToken.TokenExpiration;
+        userViewModel.RefreshToken = accessToken.RefreshToken;
+
         return userViewModel;
     }
 }

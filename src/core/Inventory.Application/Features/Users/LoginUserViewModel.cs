@@ -8,5 +8,7 @@ public class LoginUserViewModel
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string EmailAddress { get; set; }
-    public AccessToken AccessToken { get; set; }
+    public string Token { get; set; }
+    public DateTime TokenExpiration { get; set; }
+    public string RefreshToken { get; set; }
 }

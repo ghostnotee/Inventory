@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
 {
+    [Authorize]
     public class ProductController : ApiController
     {
-        [Authorize(Roles = "List")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -23,6 +23,7 @@ namespace Inventory.WebApi.Controllers
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateProductCommand command)
         {

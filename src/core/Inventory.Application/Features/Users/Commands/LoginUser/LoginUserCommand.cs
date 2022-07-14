@@ -50,10 +50,14 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUs
             where userOperationClaim.UserId == userToCheck.Id
             select new OperationClaim { Id = operationClaim.Id, Name = operationClaim.Name };
 
-        var claimList = claims.ToList();
-        var userViewModel = _mapper.Map<LoginUserViewModel>(userToCheck);
-        userViewModel.AccessToken = _tokenHelper.CreateToken(userToCheck, claimList);
+        var accessToken = _tokenHelper.CreateToken(userToCheck, claims.ToList());
+        userToCheck.RefreshToken = accessToken.RefreshToken;
+        userToCheck.RefreshTokenExpiration = accessToken.RefreshTokenExpiration;
 
+        await _userRepository.UpdateAsync(userToCheck.Id, userToCheck);
+        
+        var userViewModel = _mapper.Map<LoginUserViewModel>(userToCheck);
+        
         return userViewModel;
     }
 }
