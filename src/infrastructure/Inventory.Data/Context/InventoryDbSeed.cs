@@ -109,13 +109,14 @@ public static class InventoryDbSeed
 
     private static List<User> GetUsers()
     {
-        HashingHelper.CreatePasswordHash("123456", out var passwordHash, out var passwordSalt);
+        HashingHelper.CreatePasswordHash("123qwe", out var passwordHash, out var passwordSalt);
 
         var result = new Faker<User>("tr")
             .RuleFor(i => i.CreateDate, i => i.Date.Between(DateTime.Now.AddDays(-100), DateTime.Now))
             .RuleFor(i => i.FirstName, i => i.Person.FirstName)
             .RuleFor(i => i.LastName, i => i.Person.LastName)
             .RuleFor(i => i.EmailAddress, i => i.Internet.Email())
+            .RuleFor(i => i.Department, i => i.Commerce.Department())
             .RuleFor(i => i.PasswordHash, i => passwordHash)
             .RuleFor(i => i.PasswordSalt, i => passwordSalt)
             .RuleFor(i => i.EmailConfirmed, i => i.PickRandom(true, false))

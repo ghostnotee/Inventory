@@ -9,4 +9,6 @@ public class User : BaseEntity
     public byte[] PasswordSalt { get; set; }
     public byte[] PasswordHash { get; set; }
     public bool EmailConfirmed { get; set; }
+    public string RefreshToken { get; set; }
+    public DateTime RefreshTokenExpiration { get; set; }
 }
