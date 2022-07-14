@@ -1,9 +1,8 @@
-namespace Inventory.Identity.Jwt;
+namespace Inventory.Application.Features.Users;
 
-public class AccessToken
+public class AccessTokenViewModel
 {
     public string Token { get; set; }
     public DateTime TokenExpiration { get; set; }
     public string RefreshToken { get; set; }
-    public DateTime RefreshTokenExpiration { get; set; }
 }

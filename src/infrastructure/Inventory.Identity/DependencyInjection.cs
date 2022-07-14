@@ -7,7 +7,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureIdentity(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<ITokenHelper, JwtHelper>();
+        serviceCollection.AddTransient<ITokenHelper, JwtHelper>();
         return serviceCollection;
     }
 }

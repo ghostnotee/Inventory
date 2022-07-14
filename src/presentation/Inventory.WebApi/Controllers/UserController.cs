@@ -1,3 +1,4 @@
+using Inventory.Application.Features.Users.Commands.CreateRefreshToken;
 using Inventory.Application.Features.Users.Commands.CreateUser;
 using Inventory.Application.Features.Users.Commands.LoginUser;
 using Inventory.Application.Features.Users.Queries.GetUserById;
@@ -26,6 +27,13 @@ namespace Inventory.WebApi.Controllers
         {
             var result = await Mediator.Send(new GetUserByIdQuery { Id = id });
             return Ok(result);
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<ActionResult> RefreshToken(CreateRefreshTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok();
         }
     }
 }
