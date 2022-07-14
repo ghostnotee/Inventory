@@ -55,9 +55,11 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUs
         userToCheck.RefreshTokenExpiration = accessToken.RefreshTokenExpiration;
 
         await _userRepository.UpdateAsync(userToCheck.Id, userToCheck);
-        
+
         var userViewModel = _mapper.Map<LoginUserViewModel>(userToCheck);
-        
+        userViewModel.Token = accessToken.Token;
+        userViewModel.TokenExpiration = accessToken.TokenExpiration;
+
         return userViewModel;
     }
 }

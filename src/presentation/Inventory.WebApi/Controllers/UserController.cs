@@ -33,7 +33,7 @@ namespace Inventory.WebApi.Controllers
         public async Task<ActionResult> RefreshToken(CreateRefreshTokenCommand command)
         {
             var result = await Mediator.Send(command);
-            return Ok();
+            return Ok(result);
         }
     }
 }

@@ -46,9 +46,9 @@ public class CreateRefreshTokenCommandHandler : IRequestHandler<CreateRefreshTok
         var jwt = _tokenHelper.CreateToken(dbUser, claims.ToList());
         dbUser.RefreshToken = jwt.RefreshToken;
         dbUser.RefreshTokenExpiration = jwt.RefreshTokenExpiration;
-        
+
         await _userRepository.UpdateAsync(dbUser.Id, dbUser);
-        
+
         var jwtViewModel = _mapper.Map<AccessTokenViewModel>(jwt);
 
         return jwtViewModel;
