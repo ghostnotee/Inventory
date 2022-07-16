@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
 using Inventory.Application.Features.Queries.Categories;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
@@ -28,7 +27,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
     public async Task<CategoryViewModel> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var dbCategory = await _categoryRepository.GetByIdAsync(request.Id);
-        if (dbCategory is null) throw new NotFoundException(nameof(Category), request.Id);
+        if (dbCategory is null) throw new InvalidOperationException("Category not found with id");
 
         dbCategory.Name = request.Name;
         dbCategory.ParentCategoryId = request.ParentCategoryId;

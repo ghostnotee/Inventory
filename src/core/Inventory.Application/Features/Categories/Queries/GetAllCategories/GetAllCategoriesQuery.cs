@@ -1,4 +1,5 @@
 using AutoMapper;
+using Inventory.Application.Features.Categories;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 

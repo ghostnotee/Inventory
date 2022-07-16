@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Queries.Categories;
+namespace Inventory.Application.Features.Categories;
 
 public class CategoryViewModel
 {

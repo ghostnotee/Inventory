@@ -5,6 +5,7 @@ using Inventory.Data.Settings;
 using Inventory.Identity;
 using Inventory.Identity.Encryption;
 using Inventory.Identity.Jwt;
+using Inventory.Shared.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -60,6 +61,8 @@ app.UseCors(policyBuilder => policyBuilder.WithOrigins("http://localhost:5144").
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseExceptionMiddleware();
 
 app.MapControllers();
 

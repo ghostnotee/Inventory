@@ -6,6 +6,8 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(i => i.Name).NotEmpty().NotNull().WithMessage("{PropertyName} cannot be null");
+        RuleFor(i => i.Name)
+            .NotEmpty().WithMessage("{PropertyName} cannot be null or empty")
+            .NotNull().WithMessage("{PropertyName} cannot be null or empty");
     }
 }

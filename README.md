@@ -1,6 +1,6 @@
 # Kolay Gelsin Inventory
 
-### Kullanılacak Teknoloji ve Paketler
+### Technology and Packages
 
 - MongoDB, Repository Pattern
 - CQRS mediator patterns in the .Net 6, AutoMapper
@@ -8,5 +8,5 @@
 - Bogus
 - JWT, Active Directory LDAP.
 
-- Notlar :
+- 🗒 Notion Notes :  
 https://checkered-antimatter-26d.notion.site/Kolay-Gelsin-Inventory-cbdaf25fd86d4b2caa2b5455807bc925

@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using MediatR;
@@ -26,7 +25,7 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Bra
     public async Task<BrandViewModel> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {
         var dbBrand = await _brandRepository.GetByIdAsync(request.Id);
-        if (dbBrand is null) throw new NotFoundException(nameof(Brand), request.Id);
+        if (dbBrand is null) throw new InvalidOperationException($"{nameof(Brand)} not found");
 
         dbBrand.Name = request.Name;
         dbBrand.UpdateDate = DateTime.Now;

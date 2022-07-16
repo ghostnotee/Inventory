@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using MediatR;
@@ -30,7 +29,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDet
     public async Task<UserDetailViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var dbUser = await _userRepository.GetByIdAsync(request.Id);
-        if (dbUser is null) throw new NotFoundException("user", nameof(User));
+        if (dbUser is null) throw new InvalidOperationException("User not found with id");
         
         var claims = from operationClaim in _operationClaimRepository.Get()
             join userOperationClaim in _userOperationClaimRepository.Get() on operationClaim.Id equals

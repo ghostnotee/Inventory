@@ -23,6 +23,7 @@ public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Brand
     public async Task<BrandViewModel> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
     {
         var dbBrand = await _brandRepository.GetByIdAsync(request.Id);
+        if (dbBrand is null) throw new InvalidOperationException($"Brand not found with id");
         return _mapper.Map<BrandViewModel>(dbBrand);
     }
 }
