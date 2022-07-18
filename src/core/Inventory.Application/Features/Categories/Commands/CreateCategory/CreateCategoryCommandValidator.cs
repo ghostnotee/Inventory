@@ -6,6 +6,7 @@ namespace Inventory.Application.Features.Categories.Commands.CreateCategory;
 public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {
     private readonly ICategoryRepository _categoryRepository;
+
     public CreateCategoryCommandValidator(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
@@ -18,8 +19,6 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
     private bool UniqName(string name)
     {
         var dbBrand = _categoryRepository.GetAsync(b => b.Name.ToLower() == name.ToLower()).Result;
-        if (dbBrand == null) return true;
-
-        return false;
+        return dbBrand == null;
     }
 }
