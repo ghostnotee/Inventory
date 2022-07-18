@@ -1,4 +1,5 @@
 using AutoMapper;
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
@@ -23,6 +24,8 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
     public async Task<ProductViewModel> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         var deletedProduct = await _productRepository.DeleteAsync(request.Id);
+        if (deletedProduct is null) throw new NotFoundException("Product", request.Id);
+
         return _mapper.Map<ProductViewModel>(deletedProduct);
     }
 }

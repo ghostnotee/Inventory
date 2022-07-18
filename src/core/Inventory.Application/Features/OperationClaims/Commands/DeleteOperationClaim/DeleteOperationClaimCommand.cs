@@ -1,3 +1,4 @@
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
@@ -20,6 +21,8 @@ public class DeleteOperationClaimCommandHandler : IRequestHandler<DeleteOperatio
     public async Task<string> Handle(DeleteOperationClaimCommand request, CancellationToken cancellationToken)
     {
         var operationClaimToDeleted = await _operationClaimRepository.DeleteAsync(request.Id);
+        if (operationClaimToDeleted is null) throw new NotFoundException("Brand", request.Id);
+
         return operationClaimToDeleted.Id;
     }
 }
