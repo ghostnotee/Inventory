@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using Inventory.Identity.Hashing;
@@ -37,10 +36,10 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUs
         CancellationToken cancellationToken)
     {
         var userToCheck = await _userRepository.GetAsync(u => u.EmailAddress == request.EmailAddress);
-        if (userToCheck is null) throw new NotFoundException("User not found");
+        if (userToCheck is null) throw new InvalidOperationException("User not found");
 
         if (!HashingHelper.VerifyPasswordHash(request.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
-            throw new NotFoundException("Email or password is wrong");
+            throw new InvalidOperationException("Email or password is wrong");
 
         // TODO if (!userToCheck.EmailConfirmed) throw new NotFoundException("Email address is not confirmed yet");
 

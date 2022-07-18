@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using Inventory.Application;
+using Inventory.Application.Middlewares;
 using Inventory.Data;
 using Inventory.Data.Settings;
 using Inventory.Identity;
@@ -60,6 +61,8 @@ app.UseCors(policyBuilder => policyBuilder.WithOrigins("http://localhost:5144").
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseExceptionMiddleware();
 
 app.MapControllers();
 

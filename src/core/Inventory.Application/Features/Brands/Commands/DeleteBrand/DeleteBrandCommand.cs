@@ -1,4 +1,5 @@
 using AutoMapper;
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
@@ -22,7 +23,9 @@ public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, Bra
 
     public async Task<BrandViewModel> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
     {
-        var deletedBrand = await _brandRepository.DeleteAsync(request.Id);
-        return _mapper.Map<BrandViewModel>(deletedBrand);
+        var brandToDelete = await _brandRepository.DeleteAsync(request.Id);
+        if (brandToDelete is null) throw new NotFoundException("Brand", request.Id);
+        
+        return _mapper.Map<BrandViewModel>(brandToDelete);
     }
 }

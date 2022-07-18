@@ -1,6 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
-using Inventory.Application.Features.Queries.Products;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using Inventory.Domain.Enums;
@@ -39,10 +37,10 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     public async Task<ProductViewModel> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var dbBrand = await _brandRepository.GetByIdAsync(request.BrandId);
-        if (dbBrand is null) throw new NotFoundException(nameof(Brand), request.BrandId);
+        if (dbBrand is null) throw new InvalidOperationException($"{nameof(Product)} not found");
 
         var dbCategory = await _categoryRepository.GetByIdAsync(request.CategoryId);
-        if (dbCategory is null) throw new NotFoundException(nameof(Category), request.CategoryId);
+        if (dbCategory is null) throw new InvalidOperationException($"{nameof(Category)} not found");
 
         var savedProduct = new Product
         {

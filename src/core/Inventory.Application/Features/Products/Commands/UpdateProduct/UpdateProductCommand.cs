@@ -1,6 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
-using Inventory.Application.Features.Queries.Products;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using Inventory.Domain.Enums;
@@ -40,13 +38,13 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
     public async Task<ProductViewModel> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var dbProduct = await _productRepository.GetByIdAsync(request.Id);
-        if (dbProduct is null) throw new NotFoundException(nameof(Product), request.Id);
+        if (dbProduct is null) throw new InvalidOperationException($"{nameof(Product)} not found with id");
 
         var dbBrand = await _brandRepository.GetByIdAsync(request.BrandId);
-        if (dbBrand is null) throw new NotFoundException(nameof(Brand), request.BrandId);
+        if (dbBrand is null) throw new InvalidOperationException($"{nameof(Brand)} not found with id");
 
         var dbCategory = await _categoryRepository.GetByIdAsync(request.CategoryId);
-        if (dbCategory is null) throw new NotFoundException(nameof(Category), request.CategoryId);
+        //if (dbCategory is null) throw new NotFoundException(nameof(Category), request.CategoryId);
 
         var updatedProduct = new Product
         {

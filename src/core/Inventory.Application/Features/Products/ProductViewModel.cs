@@ -1,6 +1,6 @@
 using Inventory.Domain.Entities;
 
-namespace Inventory.Application.Features.Queries.Products;
+namespace Inventory.Application.Features.Products;
 
 public class ProductViewModel
 {
