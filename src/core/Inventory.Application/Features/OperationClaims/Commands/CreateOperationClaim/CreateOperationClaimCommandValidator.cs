@@ -6,6 +6,8 @@ public class CreateOperationClaimCommandValidator : AbstractValidator<CreateOper
 {
     public CreateOperationClaimCommandValidator()
     {
-        RuleFor(i => i.Name).NotEmpty().NotNull().WithMessage("{PropertyName} cannot be null or empty");
+        RuleFor(i => i.Name)
+            .NotEmpty().WithMessage("{PropertyName} cannot be null or empty")
+            .NotNull().WithMessage("{PropertyName} cannot be null or empty");
     }
 }

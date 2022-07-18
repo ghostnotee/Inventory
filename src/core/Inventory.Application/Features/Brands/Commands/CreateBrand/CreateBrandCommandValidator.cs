@@ -19,8 +19,6 @@ public class CreateBrandCommandValidator : AbstractValidator<CreateBrandCommand>
     private bool UniqName(string name)
     {
         var dbBrand = _brandRepository.GetAsync(b => b.Name.ToLower() == name.ToLower()).Result;
-        if (dbBrand == null) return true;
-
-        return false;
+        return dbBrand == null;
     }
 }

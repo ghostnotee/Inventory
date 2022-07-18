@@ -1,3 +1,4 @@
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
@@ -21,9 +22,11 @@ public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperatio
     public async Task<string> Handle(UpdateOperationClaimCommand request, CancellationToken cancellationToken)
     {
         var operationClaimToUpdate = await _operationClaimRepository.GetByIdAsync(request.Id);
+        if (operationClaimToUpdate is null) throw new NotFoundException("Operation Claim", request.Id);
+
         operationClaimToUpdate.UpdateDate = DateTime.Now;
         operationClaimToUpdate.Name = request.Name;
-        var result = await _operationClaimRepository.UpdateAsync(request.Id, operationClaimToUpdate);
+        await _operationClaimRepository.UpdateAsync(request.Id, operationClaimToUpdate);
 
         return request.Id;
     }
