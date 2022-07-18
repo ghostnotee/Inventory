@@ -1,5 +1,4 @@
 using AutoMapper;
-using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using Inventory.Domain.Entities;
 using Inventory.Identity.Jwt;
@@ -35,7 +34,7 @@ public class CreateRefreshTokenCommandHandler : IRequestHandler<CreateRefreshTok
     {
         var dbUser = await _userRepository.GetAsync(u =>
             u.RefreshToken == request.RefreshToken && u.RefreshTokenExpiration > DateTime.Now);
-        if (dbUser is null) throw new NotFoundException("Not found a valid refreshtoken");
+        if (dbUser is null) throw new InvalidOperationException("Not found a valid refreshtoken");
 
         var claims = from operationClaim in _operationClaimRepository.Get()
             join userOperationClaim in _userOperationClaimRepository.Get() on operationClaim.Id equals

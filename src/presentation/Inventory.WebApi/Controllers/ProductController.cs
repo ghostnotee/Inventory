@@ -30,6 +30,7 @@ namespace Inventory.WebApi.Controllers
             return Ok(await Mediator.Send(command));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(string id, [FromBody] UpdateProductCommand command)
         {
@@ -37,6 +38,7 @@ namespace Inventory.WebApi.Controllers
             return Ok(await Mediator.Send(command));
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
