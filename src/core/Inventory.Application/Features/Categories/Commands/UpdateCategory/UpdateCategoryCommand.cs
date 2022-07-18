@@ -1,7 +1,5 @@
 using AutoMapper;
-using Inventory.Application.Features.Queries.Categories;
 using Inventory.Application.Interfaces.Repositories;
-using Inventory.Domain.Entities;
 using MediatR;
 
 namespace Inventory.Application.Features.Categories.Commands.UpdateCategory;

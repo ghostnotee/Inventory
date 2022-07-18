@@ -2,7 +2,6 @@ using AutoMapper;
 using Inventory.Application.Features.Brands;
 using Inventory.Application.Features.Categories;
 using Inventory.Application.Features.Products;
-using Inventory.Application.Features.Queries.Categories;
 using Inventory.Application.Features.Users;
 using Inventory.Domain.Entities;
 using Inventory.Identity.Jwt;

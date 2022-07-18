@@ -1,11 +1,11 @@
 using FluentValidation.AspNetCore;
 using Inventory.Application;
+using Inventory.Application.Middlewares;
 using Inventory.Data;
 using Inventory.Data.Settings;
 using Inventory.Identity;
 using Inventory.Identity.Encryption;
 using Inventory.Identity.Jwt;
-using Inventory.Shared.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

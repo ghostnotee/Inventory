@@ -1,10 +1,11 @@
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
+using Inventory.Application.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace Inventory.Shared.Middlewares;
+namespace Inventory.Application.Middlewares;
 
 public class ExceptionHandlerMiddleware
 {
@@ -42,8 +43,25 @@ public class ExceptionHandlerMiddleware
     {
         context.Response.ContentType = "application/json";
 
-        string message = "[Error]   HTTP " + context.Request.Method + " - " + context.Response.StatusCode +
-                         " Error Message " + exception.Message + " in " + watch.Elapsed.TotalMilliseconds;
+        switch (exception)
+        {
+            case ValidationException:
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                break;
+            case NotFoundException:
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                break;
+            case UnauthorizedAccessException:
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                break;
+            default:
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                break;
+        }
+
+        string message = "[Error]    HTTP " + context.Request.Method + " - " + context.Response.StatusCode +
+                         " Error Message: " + exception.Message + " in " + watch.Elapsed.TotalMilliseconds;
+        
         Console.WriteLine(message);
 
         var result = JsonSerializer.Serialize(new

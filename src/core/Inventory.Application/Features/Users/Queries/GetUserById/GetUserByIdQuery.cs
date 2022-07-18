@@ -1,5 +1,6 @@
-using AutoMapper;
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
+
 using Inventory.Domain.Entities;
 using MediatR;
 
@@ -15,13 +16,11 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDet
     private readonly IUserRepository _userRepository;
     private readonly IOperationClaimRepository _operationClaimRepository;
     private readonly IUserOperationClaimRepository _userOperationClaimRepository;
-    private readonly IMapper _mapper;
 
-    public GetUserByIdQueryHandler(IUserRepository userRepository, IMapper mapper,
-        IOperationClaimRepository operationClaimRepository, IUserOperationClaimRepository userOperationClaimRepository)
+    public GetUserByIdQueryHandler(IUserRepository userRepository, IOperationClaimRepository operationClaimRepository,
+        IUserOperationClaimRepository userOperationClaimRepository)
     {
         _userRepository = userRepository;
-        _mapper = mapper;
         _operationClaimRepository = operationClaimRepository;
         _userOperationClaimRepository = userOperationClaimRepository;
     }
@@ -29,8 +28,8 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDet
     public async Task<UserDetailViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var dbUser = await _userRepository.GetByIdAsync(request.Id);
-        if (dbUser is null) throw new InvalidOperationException("User not found with id");
-        
+        if (dbUser is null) throw new NotFoundException("user",request.Id);
+
         var claims = from operationClaim in _operationClaimRepository.Get()
             join userOperationClaim in _userOperationClaimRepository.Get() on operationClaim.Id equals
                 userOperationClaim.OperationClaimId

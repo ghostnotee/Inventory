@@ -1,4 +1,4 @@
-namespace Inventory.Shared.Exceptions;
+namespace Inventory.Application.Exceptions;
 
 public class ValidationException : Exception
 {

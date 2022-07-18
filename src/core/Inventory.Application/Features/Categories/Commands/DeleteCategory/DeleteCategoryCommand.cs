@@ -1,5 +1,5 @@
 using AutoMapper;
-using Inventory.Application.Features.Queries.Categories;
+using Inventory.Application.Exceptions;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
@@ -23,7 +23,9 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
 
     public async Task<CategoryViewModel> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var deletedCategory = await _categoryRepository.DeleteAsync(request.Id);
-        return _mapper.Map<CategoryViewModel>(deletedCategory);
+        var categoryToDelete = await _categoryRepository.DeleteAsync(request.Id);
+        if (categoryToDelete is null) throw new NotFoundException("Category", request.Id);
+
+        return _mapper.Map<CategoryViewModel>(categoryToDelete);
     }
 }

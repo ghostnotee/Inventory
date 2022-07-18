@@ -1,9 +1,8 @@
 using AutoMapper;
-using Inventory.Application.Features.Categories;
 using Inventory.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace Inventory.Application.Features.Queries.Categories.GetAllCategories;
+namespace Inventory.Application.Features.Categories.Queries.GetAllCategories;
 
 public class GetAllCategoriesQuery : IRequest<List<CategoryViewModel>>
 {
