@@ -14,30 +14,33 @@ var builder = WebApplication.CreateBuilder(args);
 DocumentMapping.MappingClasses();
 
 // Add services to the container.
+
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(options =>
     {
-        ValidateAudience = true,
-        ValidateIssuer = true,
-        ValidateLifetime = true,
-        ValidIssuer = tokenOptions.Issuer,
-        ValidAudience = tokenOptions.Audience,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
-    };
-});
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+    });
+
 builder.Services.AddInfrastructureIdentity();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
 builder.Services.AddInfrastructureData();
 builder.Services.AddCoreApplication();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", policyBuilder => policyBuilder.WithOrigins("http://localhost:5144"));
-});
+builder.Services.AddCors();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
@@ -56,7 +59,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(policyBuilder => policyBuilder.WithOrigins("http://localhost:5144").AllowAnyHeader());
+app.UseHttpsRedirection();
+
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthentication();
 
