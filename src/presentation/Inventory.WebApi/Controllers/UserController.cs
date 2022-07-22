@@ -2,6 +2,7 @@ using Inventory.Application.Features.Users.Commands.CreateRefreshToken;
 using Inventory.Application.Features.Users.Commands.CreateUser;
 using Inventory.Application.Features.Users.Commands.LoginUser;
 using Inventory.Application.Features.Users.Queries.GetUserById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.WebApi.Controllers
@@ -16,13 +17,14 @@ namespace Inventory.WebApi.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Login(CreateUserCommand command)
+        public async Task<IActionResult> Register(CreateUserCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(string id)
         {
             var result = await Mediator.Send(new GetUserByIdQuery { Id = id });

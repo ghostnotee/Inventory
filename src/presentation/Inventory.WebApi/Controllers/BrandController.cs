@@ -17,6 +17,7 @@ namespace Inventory.WebApi.Controllers
             return Ok(await Mediator.Send(new GetAllBrandsQuery()));
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(string id)
         {
