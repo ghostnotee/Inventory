@@ -4,10 +4,6 @@ using Inventory.Application.Features.Users.Commands.LoginUser;
 using Inventory.Application.Features.Users.Queries.GetUserById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Google.Apis.Auth.AspNetCore3;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
 
 namespace Inventory.WebApi.Controllers
 {
@@ -18,14 +14,6 @@ namespace Inventory.WebApi.Controllers
         {
             var result = await Mediator.Send(command);
             return Ok(result);
-        }
-        
-        
-        [HttpPost("Google")]
-        public async Task<IActionResult> Google(GoogleLoginUserCommand command)
-        {
-            var result = User.Identity.Name;
-            return Ok(await Task.FromResult(result));
         }
 
         [HttpPost("Register")]
